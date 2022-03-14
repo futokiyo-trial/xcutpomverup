@@ -1,0 +1,21 @@
+{
+	"properties":[
+		{
+			"propertyName":"majalis.version",
+			"versionSrc":"0.3.0",
+			"versionDest":"0.4.0"
+		},
+		{
+			"propertyName":"majalis.version",
+			"versionSrc":"0.3.0",
+			"versionDest":"0.4.0"
+		}
+	],
+	"projects" : [
+		{	"projectName":"majalis-arch",
+			"rootDirectory":"C:/tmp/ac/majalis-arch",
+			"versionSrc":"0.3.0",
+			"versionDest": "0.4.0"
+		}
+	]
+}
