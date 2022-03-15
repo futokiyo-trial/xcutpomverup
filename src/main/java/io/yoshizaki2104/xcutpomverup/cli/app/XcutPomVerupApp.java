@@ -20,6 +20,7 @@ import io.yoshizaki2104.xcutpomverup.cli.config.ProjectDef;
 import io.yoshizaki2104.xcutpomverup.cli.config.PropertyDef;
 import io.yoshizaki2104.xcutpomverup.cli.config.XcutPomVerupConfig;
 import io.yoshizaki2104.xcutpomverup.cli.utils.JsonUtils;
+import io.yoshizaki2104.xcutpomverup.cli.utils.ReadUtils;
 
 public class XcutPomVerupApp {
 
@@ -41,21 +42,9 @@ public class XcutPomVerupApp {
 	
 	static XcutPomVerupConfig convertToConfig(String path) throws FileNotFoundException, IOException {
 		
-		StringBuilder sb = new StringBuilder();
-		try(FileInputStream fis = new FileInputStream(path);
-			InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-				BufferedReader br = new BufferedReader(isr);){
-			char[] charArrayData = new char[1024];
-			int readCharNum = br.read(charArrayData);
-			while(readCharNum!=-1) {
-				sb.append(charArrayData, 0, readCharNum);
-				readCharNum = br.read(charArrayData);
-			}
-		} finally {
-			
-		}
+		String xmlContent = ReadUtils.readFrom(path);
 		
-		XcutPomVerupConfig config = JsonUtils.parse(XcutPomVerupConfig.class, sb.toString());
+		XcutPomVerupConfig config = JsonUtils.parse(XcutPomVerupConfig.class, xmlContent);
 		return config;
 	}
 	
@@ -110,7 +99,7 @@ public class XcutPomVerupApp {
 		try {
 			Files.copy(pomPath, backupPath);
 			String tmpFilePath = pomPath.toAbsolutePath().toString()+".tmp";
-			//File tmpConvertedFile = new File(tmpPath);
+			String lineBreak = ReadUtils.determineLineBreak(pomPath.toAbsolutePath().toString());
 			try(FileInputStream fis = new FileInputStream(pomPath.toAbsolutePath().toString());
 				InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
 				BufferedReader br = new BufferedReader(isr);
@@ -123,7 +112,7 @@ public class XcutPomVerupApp {
 					lineNo++;
 					String replacedLine = replaceLine(line, lineNo, project, properties);
 					bw.append(replacedLine);
-					bw.append("\n");
+					bw.append(lineBreak);
 					if(!line.equals(replacedLine)) {
 						System.out.println(project.getProjectName() + " : " + line + " -> " + replacedLine);
 					}
