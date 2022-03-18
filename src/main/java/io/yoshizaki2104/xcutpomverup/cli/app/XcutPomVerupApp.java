@@ -40,6 +40,19 @@ public class XcutPomVerupApp {
 
 	}
 	
+	public static String encloseValueByElement(String elementName, String value) {
+		StringBuilder sb = new StringBuilder()
+				.append("<")
+				.append(elementName)
+				.append(">")
+				.append(value)
+				.append("</")
+				.append(elementName)
+				.append(">");
+		
+		return sb.toString();
+	}
+	
 	static XcutPomVerupConfig convertToConfig(String path) throws FileNotFoundException, IOException {
 		
 		String xmlContent = ReadUtils.readFrom(path);
@@ -51,16 +64,12 @@ public class XcutPomVerupApp {
 	static String replaceLine(final String originalLine, final int lineNo, ProjectDef project, List<PropertyDef> properties) {
 		String line = originalLine;
 		if(lineNo < 31) {
-			line = line.replace("<version>"+project.getVersionSrc()+"</version>", "<version>"+project.getVersionDest()+"</version>");
+			line = line.replace(encloseValueByElement("version", project.getVersionSrc()), encloseValueByElement("version", project.getVersionDest()));
 		}
 		
 		for(PropertyDef propertyDef : properties) {
-			String srcPropElement = "<"+propertyDef.getPropertyName()+">"
-									+ propertyDef.getVersionSrc()
-									+ "</"+propertyDef.getPropertyName()+">";
-			String destPropElement = "<"+propertyDef.getPropertyName()+">"
-					+ propertyDef.getVersionDest()
-					+ "</"+propertyDef.getPropertyName()+">";
+			String srcPropElement = encloseValueByElement(propertyDef.getPropertyName(), propertyDef.getVersionSrc());
+			String destPropElement = encloseValueByElement(propertyDef.getPropertyName(), propertyDef.getVersionDest());
 			line = line.replace(srcPropElement, destPropElement);
 		}
 		return line ;
