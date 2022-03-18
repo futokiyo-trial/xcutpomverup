@@ -48,9 +48,9 @@ public class XcutPomVerupApp {
 		return config;
 	}
 	
-	static String replaceLine(String originalLine, int lineNo, ProjectDef project, List<PropertyDef> properties) {
+	static String replaceLine(final String originalLine, final int lineNo, ProjectDef project, List<PropertyDef> properties) {
 		String line = originalLine;
-		if(lineNo < 10) {
+		if(lineNo < 31) {
 			line = line.replace("<version>"+project.getVersionSrc()+"</version>", "<version>"+project.getVersionDest()+"</version>");
 		}
 		
