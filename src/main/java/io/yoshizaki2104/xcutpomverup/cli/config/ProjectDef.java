@@ -20,6 +20,8 @@ public class ProjectDef implements Serializable {
 	private String versionSrc;
 	
 	private String versionDest;
+	
+	private Boolean remainBackup;
 
 	@JsonProperty("projectName")
 	public String getProjectName() {
@@ -55,6 +57,15 @@ public class ProjectDef implements Serializable {
 
 	public void setVersionDest(String versionDest) {
 		this.versionDest = versionDest;
+	}
+
+	@JsonProperty("remainBackup")
+	public Boolean getRemainBackup() {
+		return remainBackup;
+	}
+
+	public void setRemainBackup(Boolean remainBackup) {
+		this.remainBackup = remainBackup;
 	}
 	
 	

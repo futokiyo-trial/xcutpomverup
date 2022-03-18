@@ -141,6 +141,11 @@ public class XcutPomVerupApp {
 			deletingTmpFile.delete();
 			System.out.println("tmp file [" + tmpPath.toAbsolutePath() + "] deleted.");
 			
+			if(project.getRemainBackup()==null || !project.getRemainBackup()) {
+				File deletingBackupFile = new File(backupPath.toString());
+				deletingBackupFile.delete();
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
